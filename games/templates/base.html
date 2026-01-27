@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}GameHub{% endblock %}</title>
+
+  <!-- Tailwind CDN (para MVP) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-950 text-slate-100">
+  <!-- Top bar -->
+  <header class="border-b border-white/10 bg-slate-900/60 backdrop-blur">
+    <div class="mx-auto max-w-6xl px-4">
+      <div class="flex h-14 items-center justify-between">
+        <!-- Logo / Brand -->
+        <a href="{% url 'game_list' %}" class="flex items-center gap-2 font-semibold tracking-wide">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded bg-sky-500/20 ring-1 ring-sky-500/30">
+            🎮
+          </span>
+          <span>GameHub</span>
+        </a>
+
+        <!-- Right auth -->
+        <div class="flex items-center gap-3 text-sm text-slate-300">
+          {% if user.is_authenticated %}
+            <span class="hidden sm:inline">Hola, <b class="text-slate-100">{{ user.username }}</b></span>
+            <a class="hover:text-white" href="{% url 'my_favorites' %}">⭐ Favoritos</a>
+            <a class="hover:text-white" href="{% url 'my_likes' %}">❤️ Likes</a>
+
+            <form method="post" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <button type="submit" class="hover:text-white">Salir</button>
+            </form>
+          {% else %}
+            <a class="hover:text-white" href="{% url 'login' %}">Iniciar sesión</a>
+            <a class="hover:text-white" href="{% url 'signup' %}">Registrarse</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Nav + Search (Steam-like) -->
+    <div class="bg-slate-900/80">
+      <div class="mx-auto max-w-6xl px-4">
+        <div class="flex items-center gap-4 py-3">
+          <nav class="hidden md:flex items-center gap-5 text-sm font-medium text-slate-300">
+            <a class="hover:text-white" href="{% url 'game_list' %}">Tienda</a>
+            <a class="hover:text-white" href="{% url 'game_list' %}?genre=RPG">Categorías</a>
+            <a class="hover:text-white" href="{% url 'game_list' %}?platform=PC">Plataformas</a>
+            <a class="hover:text-white" href="{% url 'game_list' %}?q=coop">Recomendaciones</a>
+          </nav>
+
+          <!-- Search -->
+          <div class="relative ml-auto w-full md:max-w-xl">
+            <form id="searchForm" method="get" action="{% url 'game_list' %}" class="flex">
+              <input
+                id="searchInput"
+                name="q"
+                value="{{ q|default:'' }}"
+                autocomplete="off"
+                placeholder="Buscar en la tienda…"
+                class="w-full rounded-l-md bg-slate-800/70 px-4 py-2 text-sm text-slate-100 placeholder:text-slate-400 ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              />
+              <button
+                class="rounded-r-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-500"
+                type="submit"
+                aria-label="Buscar"
+              >
+                🔎
+              </button>
+            </form>
+
+            <!-- Dropdown results -->
+            <div
+              id="searchDropdown"
+              class="absolute z-50 mt-2 hidden w-full overflow-hidden rounded-md border border-white/10 bg-slate-900 shadow-xl"
+            >
+              <div id="searchResults" class="max-h-80 overflow-auto"></div>
+              <div id="searchHint" class="border-t border-white/10 px-3 py-2 text-xs text-slate-400">
+                Escribe para buscar… (Enter para ver resultados)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 py-6">
+    {% block content %}{% endblock %}
+  </main>
+
+  <script>
+    // Debounce helper
+    function debounce(fn, ms) {
+      let t;
+      return (...args) => {
+        clearTimeout(t);
+        t = setTimeout(() => fn.apply(null, args), ms);
+      };
+    }
+
+    const input = document.getElementById("searchInput");
+    const dropdown = document.getElementById("searchDropdown");
+    const resultsEl = document.getElementById("searchResults");
+    const hintEl = document.getElementById("searchHint");
+
+    const renderItems = (items, q) => {
+      resultsEl.innerHTML = "";
+      if (!items.length) {
+        resultsEl.innerHTML = `<div class="px-3 py-3 text-sm text-slate-400">Sin resultados para <b class="text-slate-200">${q}</b></div>`;
+        return;
+      }
+
+      for (const g of items) {
+        const row = document.createElement("a");
+        row.href = g.url;
+        row.className = "flex items-center justify-between gap-3 px-3 py-2 hover:bg-white/5";
+        row.innerHTML = `
+          <div class="min-w-0">
+            <div class="truncate text-sm font-semibold text-slate-100">${g.name}</div>
+            <div class="truncate text-xs text-slate-400">${g.release_year ?? ""} ${g.platforms ? "· " + g.platforms : ""}</div>
+          </div>
+          <div class="shrink-0 text-xs text-slate-300">${g.rating ?? ""}</div>
+        `;
+        resultsEl.appendChild(row);
+      }
+    };
+
+    const hideDropdown = () => dropdown.classList.add("hidden");
+    const showDropdown = () => dropdown.classList.remove("hidden");
+
+    const doSearch = debounce(async () => {
+      const q = input.value.trim();
+      if (q.length < 1) {
+        hideDropdown();
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/search-suggest/?q=${encodeURIComponent(q)}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        renderItems(data.items || [], q);
+        hintEl.textContent = "Enter para buscar en la lista completa";
+        showDropdown();
+      } catch (e) {
+        // silencio
+      }
+    }, 180);
+
+    input.addEventListener("input", doSearch);
+    input.addEventListener("focus", () => {
+      if (input.value.trim().length >= 1) showDropdown();
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!dropdown.contains(e.target) && e.target !== input) hideDropdown();
+    });
+
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") hideDropdown();
+    });
+  </script>
+</body>
+</html>

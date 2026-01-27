@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% block title %}Catálogo · GameHub{% endblock %}
+
+{% block content %}
+  <div class="flex items-end justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-semibold tracking-tight">Catálogo</h1>
+      <p class="mt-1 text-sm text-slate-400">
+        Filtra por plataforma / género o busca por nombre y descripción.
+      </p>
+    </div>
+
+    {% if q or platform_selected or genre_selected %}
+      <a
+        href="{% url 'game_list' %}"
+        class="text-sm text-slate-300 hover:text-white underline underline-offset-4"
+      >
+        Limpiar filtros
+      </a>
+    {% endif %}
+  </div>
+
+  <!-- Filtros -->
+  <div class="mt-5 rounded-xl border border-white/10 bg-slate-900/40 p-4">
+    <form method="get" class="grid gap-3 md:grid-cols-12 md:items-end">
+      <!-- Search (fallback si no usas el buscador del navbar) -->
+      <div class="md:col-span-6">
+        <label class="mb-1 block text-xs font-medium text-slate-300">Buscar</label>
+        <input
+          name="q"
+          value="{{ q|default:'' }}"
+          placeholder="Ej: rpg, mundo abierto, coop…"
+          class="w-full rounded-md bg-slate-800/70 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-400 ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-sky-500"
+        />
+      </div>
+
+      <div class="md:col-span-3">
+        <label class="mb-1 block text-xs font-medium text-slate-300">Plataforma</label>
+        <select
+          name="platform"
+          class="w-full rounded-md bg-slate-800/70 px-3 py-2 text-sm text-slate-100 ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-sky-500"
+        >
+          <option value="">Todas</option>
+          {% for p in platforms %}
+            <option value="{{ p.name }}" {% if p.name == platform_selected %}selected{% endif %}>
+              {{ p.name }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="md:col-span-3">
+        <label class="mb-1 block text-xs font-medium text-slate-300">Género</label>
+        <select
+          name="genre"
+          class="w-full rounded-md bg-slate-800/70 px-3 py-2 text-sm text-slate-100 ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-sky-500"
+        >
+          <option value="">Todos</option>
+          {% for g in genres %}
+            <option value="{{ g.name }}" {% if g.name == genre_selected %}selected{% endif %}>
+              {{ g.name }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Botones -->
+      <div class="md:col-span-12 flex flex-wrap gap-2 pt-1">
+        <button
+          type="submit"
+          class="rounded-md bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-500"
+        >
+          Aplicar
+        </button>
+
+        {% if q or platform_selected or genre_selected %}
+          <a
+            href="{% url 'game_list' %}"
+            class="rounded-md bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 ring-1 ring-white/10 hover:bg-white/10"
+          >
+            Limpiar
+          </a>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+
+  <!-- Resultados -->
+  <div class="mt-5 flex items-center justify-between">
+    <div class="text-sm text-slate-400">
+      {% if q or platform_selected or genre_selected %}
+        Mostrando resultados filtrados
+        {% if q %} · “<span class="text-slate-200">{{ q }}</span>”{% endif %}
+        {% if platform_selected %} · <span class="text-slate-200">{{ platform_selected }}</span>{% endif %}
+        {% if genre_selected %} · <span class="text-slate-200">{{ genre_selected }}</span>{% endif %}
+      {% else %}
+        Explora juegos destacados
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {% for game in games %}
+      <a
+  href="{% url 'game_detail' game.id %}"
+  class="group overflow-hidden rounded-xl border border-white/10 bg-slate-900/40 hover:bg-white/5"
+>
+  <!-- Cover -->
+  <div class="relative aspect-[16/9] w-full bg-slate-800/50">
+    {% if game.cover_url %}
+      <img
+        src="{{ game.cover_url }}"
+        alt="Portada de {{ game.name }}"
+        class="h-full w-full object-cover"
+        loading="lazy"
+      />
+    {% else %}
+      <div class="flex h-full w-full items-center justify-center text-slate-400">
+        <div class="text-center">
+          <div class="text-3xl">🎮</div>
+          <div class="mt-1 text-xs">Sin portada</div>
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- Gradient overlay -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+
+    <!-- Badge -->
+    <div class="absolute left-3 top-3 rounded-md bg-black/40 px-2 py-1 text-xs text-slate-100 ring-1 ring-white/10">
+      {% if game.release_year %}{{ game.release_year }}{% else %}—{% endif %}
+      {% if game.rating %} · ⭐ {{ game.rating }}{% endif %}
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="p-4">
+    <div class="flex items-start justify-between gap-3">
+      <div class="min-w-0">
+        <div class="truncate text-lg font-semibold text-slate-100 group-hover:underline">
+          {{ game.name }}
+        </div>
+      </div>
+      <div class="shrink-0 rounded-md bg-white/5 px-2 py-1 text-xs text-slate-300 ring-1 ring-white/10">
+        Ver
+      </div>
+    </div>
+
+    {% if game.summary %}
+      <p class="mt-2 text-sm text-slate-300">
+        {{ game.summary|truncatechars:140 }}
+      </p>
+    {% else %}
+      <p class="mt-2 text-sm text-slate-500">Sin descripción.</p>
+    {% endif %}
+
+    <div class="mt-3 text-xs text-slate-400">
+      <div class="truncate">
+        <span class="text-slate-300">Plataformas:</span>
+        {% for p in game.platforms.all %}
+          {{ p.name }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+      </div>
+      <div class="mt-1 truncate">
+        <span class="text-slate-300">Géneros:</span>
+        {% for g in game.genres.all %}
+          {{ g.name }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</a>
+    {% empty %}
+      <div class="col-span-full rounded-xl border border-white/10 bg-slate-900/40 p-6">
+        <p class="text-slate-300">No se encontraron juegos con esos filtros.</p>
+        <p class="mt-1 text-sm text-slate-400">Prueba cambiar la búsqueda o limpiar filtros.</p>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
+

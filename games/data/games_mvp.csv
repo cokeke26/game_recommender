@@ -1,0 +1,31 @@
+id,name,platforms,genres,tags,release_year,rating,summary,cover_url
+1,Elden Ring,PC|PS4|XBOX_ONE,RPG|Action,open_world|soulslike|dark_fantasy|boss_fights,2022,9.6,Un RPG de acción desafiante en un mundo abierto oscuro con exploración y combates intensos.
+2,God of War (2018),PC|PS4,Action|Adventure,norse_mythology|cinematic|story_rich|singleplayer,2018,9.5,Aventura narrativa con combate visceral y mitología nórdica centrada en la relación padre e hijo.
+3,The Witcher 3,PC|PS4|XBOX_ONE,RPG,open_world|story_rich|choices_matter|fantasy,2015,9.7,RPG enorme con misiones memorables, decisiones y un mundo vivo lleno de historias.
+4,Red Dead Redemption 2,PC|PS4|XBOX_ONE,Action|Adventure,open_world|western|story_rich|realistic,2018,9.7,Una historia épica del viejo oeste con mundo abierto detallado y narrativa potente.
+5,GTA V,PC|PS4|XBOX_ONE,Action|Adventure,open_world|crime|sandbox|online,2013,9.2,Sandbox criminal con campaña de tres protagonistas y un modo online masivo.
+6,Hollow Knight,PC|PS4|XBOX_ONE,Metroidvania|Indie,challenging|atmospheric|exploration|platformer,2017,9.0,Metroidvania oscuro con exploración profunda, jefes exigentes y gran ambientación.
+7,Hades,PC|PS4|XBOX_ONE,Roguelike|Action,fast_combat|replayable|mythology|indie,2020,9.2,Roguelike frenético con progresión adictiva y narrativa que avanza con cada intento.
+8,Dark Souls III,PC|PS4|XBOX_ONE,RPG|Action,soulslike|dark_fantasy|boss_fights|challenging,2016,9.0,Combate metódico, bosses memorables y un mundo oscuro lleno de secretos.
+9,Sekiro,PC|PS4|XBOX_ONE,Action,parry|samurai|challenging|boss_fights,2019,9.1,Acción exigente enfocada en parries, ritmo y duelos intensos en Japón feudal.
+10,Cyberpunk 2077,PC|PS4|XBOX_ONE,RPG|Action,open_world|sci_fi|story_rich|builds,2020,8.4,RPG futurista en una ciudad inmensa con builds, misiones y estética cyberpunk.
+11,Persona 5 Royal,PS4,RPG|JRPG,turn_based|anime|story_rich|social_sim,2020,9.4,JRPG estilizado con combate por turnos, vínculos sociales y una historia larga.
+12,Final Fantasy VII Remake,PC|PS4,JRPG|Action,story_rich|party|cinematic|fantasy,2020,8.9,Reimaginación moderna con combate híbrido y enfoque narrativo cinematográfico.
+13,Resident Evil 2 (Remake),PC|PS4|XBOX_ONE,Horror|Action,survival_horror|atmospheric|zombies|puzzles,2019,9.0,Terror y tensión con exploración, recursos limitados y un diseño clásico modernizado.
+14,The Last of Us Part II,PS4,Action|Adventure,story_rich|stealth|cinematic|singleplayer,2020,9.0,Aventura intensa con enfoque narrativo, sigilo y emociones fuertes.
+15,Marvel's Spider-Man,PC|PS4,Action|Adventure,open_world|superhero|web_swinging|story_rich,2018,8.9,Acción ágil balanceando entre edificios y combate fluido en una ciudad abierta.
+16,Forza Horizon 4,PC|XBOX_ONE,Racing|OpenWorld,car_collecting|arcade_racing|exploration|multiplayer,2018,8.8,Carreras arcade en mundo abierto con colección de autos y eventos dinámicos.
+17,Forza Horizon 5,PC|XBOX_ONE,Racing|OpenWorld,car_collecting|arcade_racing|open_world|multiplayer,2021,9.1,Carreras en mundo abierto con mapa enorme y variedad de biomas y desafíos.
+18,Halo: The Master Chief Collection,PC|XBOX_ONE,FPS,coop|campaign|sci_fi|classic,2019,8.7,Colección de campañas Halo con cooperativo y multijugador clásico modernizado.
+19,Doom Eternal,PC|PS4|XBOX_ONE,FPS,fast_paced|demons|skill_based|arena,2020,8.8,FPS ultra rápido con movilidad y combate agresivo contra hordas demoníacas.
+20,Overwatch 2,PC|PS4|XBOX_ONE,Shooter|Multiplayer,hero_shooter|team_based|competitive|online,2022,7.8,Shooter por equipos con héroes, roles y partidas competitivas.
+21,Apex Legends,PC|PS4|XBOX_ONE,BattleRoyale|Shooter,hero_shooter|squad|fast_paced|online,2019,8.5,Battle royale de escuadras con habilidades únicas y movilidad fluida.
+22,FIFA 24,PC|PS4|XBOX_ONE,Sports,football|online|career_mode|competitive,2023,7.6,Fútbol con modos online y carrera para jugar temporadas y torneos.
+23,Rocket League,PC|PS4|XBOX_ONE,Sports|Arcade,cars|competitive|online|quick_matches,2015,8.6,Fútbol con autos: rápido, competitivo y perfecto para partidas cortas.
+24,Minecraft,PC|PS4|XBOX_ONE,Sandbox,building|survival|creative|coop,2011,9.0,Sandbox de construcción con supervivencia, creatividad y cooperativo.
+25,Stardew Valley,PC|PS4|XBOX_ONE,Simulation|Indie,farming|cozy|life_sim|relaxing,2016,9.1,Simulador relajante de granja con progreso, relaciones y exploración ligera.
+26,Sea of Thieves,PC|XBOX_ONE,Adventure|Multiplayer,pirates|coop|open_world|online,2018,8.0,Aventura pirata cooperativa con exploración, misiones y caos compartido.
+27,Valorant,PC,FPS|Tactical,competitive|team_based|abilities|online,2020,8.4,Tactical shooter competitivo con habilidades, rondas y enfoque en precisión.
+28,Counter-Strike 2,PC,FPS|Tactical,competitive|skill_based|online|classic,2023,8.6,Shooter táctico competitivo centrado en precisión, economía y estrategia de equipo.
+29,Baldur's Gate 3,PC|PS4,RPG|CRPG,turn_based|choices_matter|party|fantasy,2023,9.6,CRPG con decisiones profundas, combate por turnos y campañas cooperativas.
+30,It Takes Two,PC|PS4|XBOX_ONE,Adventure|Coop,coop|puzzles|story_rich|split_screen,2021,9.0,Aventura cooperativa creativa con puzzles y cambios constantes de gameplay.
