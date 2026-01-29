@@ -119,12 +119,19 @@
         row.href = g.url;
         row.className = "flex items-center justify-between gap-3 px-3 py-2 hover:bg-white/5";
         row.innerHTML = `
-          <div class="min-w-0">
-            <div class="truncate text-sm font-semibold text-slate-100">${g.name}</div>
-            <div class="truncate text-xs text-slate-400">${g.release_year ?? ""} ${g.platforms ? "· " + g.platforms : ""}</div>
-          </div>
-          <div class="shrink-0 text-xs text-slate-300">${g.rating ?? ""}</div>
-        `;
+  <div class="flex items-center gap-3 min-w-0">
+    <div class="h-10 w-16 overflow-hidden rounded bg-white/5 ring-1 ring-white/10 shrink-0">
+      ${g.cover_url
+        ? `<img src="${g.cover_url}" class="h-full w-full object-cover" referrerpolicy="no-referrer" />`
+        : `<div class="h-full w-full grid place-items-center text-xs text-slate-400">🎮</div>`}
+    </div>
+    <div class="min-w-0">
+      <div class="truncate text-sm font-semibold text-slate-100">${g.name}</div>
+      <div class="truncate text-xs text-slate-400">${g.release_year ?? ""} ${g.platforms ? "· " + g.platforms : ""}</div>
+    </div>
+  </div>
+  <div class="shrink-0 text-xs text-slate-300">${g.rating ?? ""}</div>
+`;
         resultsEl.appendChild(row);
       }
     };

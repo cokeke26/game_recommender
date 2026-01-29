@@ -115,6 +115,7 @@ def search_suggest(request):
             "release_year": g.release_year,
             "rating": g.rating,
             "platforms": ", ".join(p.name for p in g.platforms.all()[:3]),
+            "cover_url": g.cover_url,
             "url": reverse("game_detail", args=[g.id]),
         })
 
