@@ -35,7 +35,6 @@ Por seguridad, la **API key no viene incluida en el repositorio** y debe configu
 ```powershell
 setx RAWG_API_KEY "TU_API_KEY_AQUI"
 
-```md
 ## 📸 Créditos
 
 Las imágenes y parte de los datos de juegos provienen de la API de  
