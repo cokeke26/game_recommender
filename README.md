@@ -16,12 +16,15 @@ Aplicación web hecha con **Django** que permite:
 - Scikit-learn (recomendaciones)
 
 ## ▶️ Ejecutar en local
+```
 python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py seed_games
 python manage.py runserver
+
+```
 
 ## 🔑 API RAWG (portadas de juegos)
 
